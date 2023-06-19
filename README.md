@@ -1,6 +1,7 @@
 This utility is to pull a pfx cert out of a Traefik managed acme.json cert store file so it can be loaded into Plex (or anything else) in an automated way.  The container pulls the cert upon start and once a day thereafter via cron.
 
 You can find a pre-built container on docker hub at `gregtakacs/acme2pfx`
+
 Input environment variables:
 
 `CERT_KEY_FILE`: The filename of the file that stores the password for the output p12 file. Rather than having the password in an environment variable we want a file location so we can use docker secrets (see example)
