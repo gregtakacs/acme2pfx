@@ -1,0 +1,25 @@
+version: "3.9"
+
+########################### SECRETS
+secrets:
+  plex_cert_key:
+    file: $DOCKERDIR/secrets/plex_cert_key
+
+########################### SERVICES
+services:
+
+  acme2pfx:
+    image: gregtakacs/acme2pfx
+    container_name: acme2pfx
+    secrets:
+      - plex_cert_key
+    environment:
+      - CERT_KEY_FILE=/run/secrets/plex_cert_key
+      - CERT_DOMAIN=$DOMAINNAME_CLOUD_SERVER
+      - CERT_RESOLVER=dns-cloudflare
+      - TMP_DIR=/var/cache
+    tmpfs:
+      - /var/cache # temporary place in memory to store extracted certs
+    volumes:
+      - $DOCKERDIR/appdata/traefik/acme:/source:ro # Mount traefik volume as read-only
+      - $DOCKERDIR/appdata/traefik/acme:/dest # And whichever volume you want to output on
